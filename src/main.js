@@ -4,8 +4,9 @@ import router from './router'
 import echarts from 'echarts'
 import axios from 'axios'
 import qs from 'qs'
-import {Autocomplete,DatePicker,Button,Input, Table, TableColumn, Loading,Dialog,Form,FormItem,MessageBox,Message,Select,Option,Pagination} from 'element-ui'
+import {Upload,Autocomplete,DatePicker,Button,Input, Table, TableColumn, Loading,Dialog,Form,FormItem,MessageBox,Message,Select,Option,Pagination} from 'element-ui'
 
+Vue.use(Upload)
 Vue.use(Autocomplete)
 Vue.use(DatePicker)
 Vue.use(Pagination)

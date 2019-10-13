@@ -2,15 +2,17 @@
   <div class="page4">
     <section class="top-title">出库管理</section>
     <section class="search-box">
-      <h1>条件搜索(产品名称)</h1> 
+      <h1>条件搜索(产品名称)</h1>
       <section class="inner-box">
+        <el-button type="primary" icon="el-icon-position" class="myBtnOut">
+          <a href="http://lghcode.cn:8083/outStorage/excel">导出</a>
+        </el-button>
         <el-input v-model="inputValue" placeholder="请输入内容"></el-input>
         <el-button type="primary" @click="searchListHandle">查询</el-button>
       </section>
     </section>
     <section class="list-box">
-      <section class="hh">
-      </section>
+      <section class="hh"></section>
       <section class="table-con">
         <el-table
           v-loading="loading"
@@ -28,7 +30,7 @@
           <el-table-column prop="outUser" label="出库处理人"></el-table-column>
         </el-table>
       </section>
-       <section class="pagination w">
+      <section class="pagination w">
         <el-pagination
           @current-change="handleCurrentChange"
           background
@@ -47,24 +49,26 @@ export default {
       loading: true,
       inputValue: "",
       list: [],
-      myList:[],
+      myList: [],
       productNo: "",
       pageNum: 1,
       pageSize: 7,
-      totalPage: 0,
+      totalPage: 0
     };
   },
   mounted() {
     this.getList();
   },
   methods: {
-     searchListHandle(){
-      if(!this.inputValue.trim()){
-        this.myList = this.list
+    searchListHandle() {
+      if (!this.inputValue.trim()) {
+        this.myList = this.list;
         return;
       }
-      this.myList = this.list.filter(item=>(item.productName == this.inputValue))
-    },  
+      this.myList = this.list.filter(
+        item => item.productName == this.inputValue
+      );
+    },
     handleCurrentChange(index) {
       console.log(index);
       this.pageNum = index;
@@ -101,7 +105,7 @@ export default {
         this.loading = false;
         if (result.data.status == 200) {
           this.list = result.data.data.rows;
-          this.myList =  this.list
+          this.myList = this.list;
           this.totalPage = result.data.data.totalPage;
         } else {
           let msg = result.msg;
@@ -118,7 +122,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page4 {
-  .el-button{
+  .myBtnOut {
+    margin-right: 20px;
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+  .el-button {
     margin-left: 10px;
   }
   padding: 10px;
@@ -153,7 +164,7 @@ export default {
         cursor: pointer;
       }
     }
-    .table-con{
+    .table-con {
       min-height: 440px;
     }
     .pagination {

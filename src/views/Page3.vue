@@ -4,6 +4,9 @@
     <section class="search-box">
       <h1>条件搜索（产品名称）</h1>
       <section class="inner-box">
+       <el-button type="primary" icon="el-icon-position" class="myBtnOut">
+         <a href="http://lghcode.cn:8083/putStorage/excel">导出</a>
+       </el-button>
         <el-input v-model="inputValue" placeholder="请输入内容"></el-input>
         <el-button type="primary" @click="searchListHandle">查询</el-button>
       </section>
@@ -117,6 +120,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page3 {
+  .myBtnOut{
+    margin-right: 20px;
+    a{
+      text-decoration: none;
+      color: #fff;
+    }
+  }
   padding: 10px;
    .el-button{
     margin-left: 10px;

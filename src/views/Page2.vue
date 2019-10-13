@@ -4,6 +4,9 @@
     <section class="search-box">
       <h1>条件搜索(产品编号)</h1>
       <section class="inner-box">
+        <el-button type="primary" icon="el-icon-position" class="myBtnOut">
+          <a href="http://lghcode.cn:8083/inventory/excel">导出</a>
+        </el-button>
         <el-input v-model="inputValue" placeholder="请输入内容"></el-input>
         <el-button type="primary" @click="searchListHandle">查询</el-button>
       </section>
@@ -86,7 +89,7 @@ export default {
       pageNum: 1,
       pageSize: 6,
       list: [],
-      myList:[],
+      myList: [],
       totalPage: 0,
       locationList: []
     };
@@ -96,15 +99,15 @@ export default {
     this.getCustomerListHander();
   },
   methods: {
-    searchListHandle(){
-      if(!this.inputValue.trim()){
-        this.myList = this.list
+    searchListHandle() {
+      if (!this.inputValue.trim()) {
+        this.myList = this.list;
         return;
       }
-      this.myList = this.list.filter(item=>(item.productNo == this.inputValue))
-    },  
+      this.myList = this.list.filter(item => item.productNo == this.inputValue);
+    },
     clsHandle(row) {
-      if (row.row.count < 10) {
+      if (row.row.count < 100) {
         return "mycountcls";
       }
     },
@@ -260,7 +263,7 @@ export default {
         this.loading = false;
         if (result.data.status == 200) {
           this.list = result.data.data.rows;
-          this.myList = this.list
+          this.myList = this.list;
           this.totalPage = result.data.data.totalPage;
         } else {
           let msg = result.msg;
@@ -277,10 +280,17 @@ export default {
 </script>
 <style lang="scss">
 .page2 {
+  .myBtnOut {
+    margin-right: 20px;
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
   .el-table__body-wrapper::-webkit-scrollbar {
     display: none !important;
   }
-  .el-button{
+  .el-button {
     margin-left: 10px;
   }
   .mycountcls {

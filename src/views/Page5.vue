@@ -9,17 +9,29 @@
         <el-form :model="form">
           <el-form-item label="用户类型" :label-width="formLabelWidth">
             <!-- <el-input v-model="form.userType" autocomplete="off"></el-input> -->
-             <el-select v-model="form.userType" placeholder="请选择">
+            <el-select v-model="form.userType" placeholder="请选择">
               <el-option
                 v-for="item in options1"
                 :key="item.value"
                 :label="item.label"
-                :value="item.value">
-              </el-option>
+                :value="item.value"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="用户名" :label-width="formLabelWidth">
             <el-input v-model="form.userNo" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="头像" :label-width="formLabelWidth">
+            <el-upload
+              class="avatar-uploader"
+              name="imageFile"
+              action="http://lghcode.cn:8083/user/uploadImg"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+            >
+              <img v-if="form.headImg" :src="form.headImg" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
           </el-form-item>
           <el-form-item label="密码" :label-width="formLabelWidth">
             <el-input v-model="form.password" autocomplete="off"></el-input>
@@ -54,15 +66,14 @@
           </el-form-item>
           <el-form-item label="是否允许登录" :label-width="formLabelWidth">
             <!-- <el-input v-model="form.isLogin" autocomplete="off"></el-input> -->
-             <el-select v-model="form.isLogin" placeholder="请选择">
+            <el-select v-model="form.isLogin" placeholder="请选择">
               <el-option
                 v-for="item in options2"
                 :key="item.value"
                 :label="item.label"
-                :value="item.value">
-              </el-option>
+                :value="item.value"
+              ></el-option>
             </el-select>
-
           </el-form-item>
           <el-form-item label="生日" :label-width="formLabelWidth">
             <el-date-picker v-model="form.birthday" type="date" placeholder="选择日期"></el-date-picker>
@@ -84,8 +95,8 @@
                 v-for="item in options1"
                 :key="item.value"
                 :label="item.label"
-                :value="item.value">
-              </el-option>
+                :value="item.value"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="用户名" :label-width="formLabelWidth">
@@ -124,13 +135,13 @@
           </el-form-item>
           <el-form-item label="是否允许登录" :label-width="formLabelWidth">
             <!-- <el-input v-model="form2.isLogin" autocomplete="off"></el-input> -->
-             <el-select v-model="form.isLogin" placeholder="请选择">
+            <el-select v-model="form.isLogin" placeholder="请选择">
               <el-option
                 v-for="item in options2"
                 :key="item.value"
                 :label="item.label"
-                :value="item.value">
-              </el-option>
+                :value="item.value"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="生日" :label-width="formLabelWidth">
@@ -156,6 +167,11 @@
         >
           <el-table-column prop="id" label="id"></el-table-column>
           <el-table-column prop="realName" label="姓名"></el-table-column>
+          <el-table-column prop="headImg" label="头像">
+            <template slot-scope="scope">
+              <img :src="scope.row.headImg" alt class="myAvatarImg" />
+            </template>
+          </el-table-column>
           <el-table-column prop="sex" label="性别"></el-table-column>
           <el-table-column prop="userNo" label="用户名"></el-table-column>
           <el-table-column prop="age" label="年龄"></el-table-column>
@@ -182,7 +198,7 @@
           <el-table-column prop="isLogin" label="授权">
             <template slot-scope="scope">
               <el-button
-              v-if="scope.row.userType!=0"
+                v-if="scope.row.userType!=0"
                 @click="isSQHandle(scope.row)"
                 type="danger"
                 :disabled="isAdmin"
@@ -207,21 +223,27 @@ export default {
   name: "Page5",
   data() {
     return {
-      options1:[{
-        label:'管理员',
-        value:0
-      },{
-        label:'员工',
-        value:1
-      }],
-       options2:[{
-        label:'允许',
-        value:1
-      },{
-        label:'不允许',
-        value:0
-      }],
-      userType:'',
+      options1: [
+        {
+          label: "管理员",
+          value: 0
+        },
+        {
+          label: "员工",
+          value: 1
+        }
+      ],
+      options2: [
+        {
+          label: "允许",
+          value: 1
+        },
+        {
+          label: "不允许",
+          value: 0
+        }
+      ],
+      userType: "",
       loading: true,
       birthday: "Sun Sep 22 00:42:46 CST 2019",
       inputValue: "",
@@ -235,6 +257,7 @@ export default {
         userNo: "",
         password: "",
         realName: "",
+        headImg: "",
         age: 0,
         sex: "",
         idCard: "",
@@ -267,7 +290,7 @@ export default {
       userNo: "",
       realName: "",
       findUser: null,
-      realName:'',
+      realName: "",
       isSQ: "",
       isAdmin: false,
       currentEditUser: null
@@ -277,14 +300,22 @@ export default {
     this.getUser();
     let user = JSON.parse(localStorage.getItem("loginUser"));
     this.isAdmin = user.userType == 1;
-    this.userType = user.userType
-    this.realName = user.realName
+    this.userType = user.userType;
+    this.realName = user.realName;
   },
   methods: {
+    handleAvatarSuccess(res, file) {
+      this.form.headImg = file.response.data
+    },
+
     changeHandle(item) {
-      if (!/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(item)) {
+      if (
+        !/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(
+          item
+        )
+      ) {
         this.$message({
-           showClose: true,
+          showClose: true,
           message: "请输入正确的手机号码格式",
           type: "warning"
         });
@@ -345,14 +376,18 @@ export default {
         });
     },
     isSQHandle(item) {
-
       let { id } = item;
+      let myIsLogin = 0
       //没有授权
       if (item.isLogin == 0) {
-        this.$axios({
+        myIsLogin = 1
+      } else {
+        myIsLogin = 0
+      }
+      this.$axios({
           url: "http://lghcode.cn:8083/user/setLoginPermissions",
           method: "post",
-          data: { id, isLogin: 1 },
+          data: { id, isLogin: myIsLogin },   //开启授权
           transformRequest: [
             function(data) {
               let ret = "";
@@ -387,8 +422,6 @@ export default {
             });
           }
         });
-      } else if (item.isLogin == 0) {
-      }
     },
     getUser() {
       this.loading = true;
@@ -396,7 +429,7 @@ export default {
       this.$axios({
         url: "http://lghcode.cn:8083/user/queryListPage ",
         method: "post",
-        data: { userNo:'', realName:'', userType:'', pageNum, pageSize },
+        data: { userNo: "", realName: "", userType: "", pageNum, pageSize },
         transformRequest: [
           function(data) {
             let ret = "";
@@ -435,7 +468,7 @@ export default {
       });
     },
     handleCurrentChange(index) {
-      console.log(index)
+      console.log(index);
       this.pageNum = index;
       this.getUser();
     },
@@ -450,7 +483,7 @@ export default {
       form2.userType = parseInt(form2.userType);
       form2.age = parseInt(form2.age);
       form2.isLogin = parseInt(form2.isLogin);
-      form2.id = this.findUser.id
+      form2.id = this.findUser.id;
       this.$axios({
         url: `http://lghcode.cn:8083/${url}`,
         method: "post",
@@ -566,9 +599,9 @@ export default {
           this.loading = false;
           let msg = result.data.msg;
           this.findUser = result.data.data;
-           for(let key  in this.form2){
-             this.form2[key] = result.data.data[key]
-           }
+          for (let key in this.form2) {
+            this.form2[key] = result.data.data[key];
+          }
           this.dialogFormVisible2 = true;
           this.$message({
             showClose: true,
@@ -591,8 +624,38 @@ export default {
 <style lang="scss">
 .page5 {
   padding: 20px;
-  .el-dialog__wrapper{
-    margin-top: -90px!important;
+  .el-form-item {
+    width: 420px;
+  }
+  .myAvatarImg {
+    width: 30px;
+    height: 30px;
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409eff;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+  }
+  .avatar {
+    width: 30px;
+    height: 30px;
+    display: block;
+  }
+  .el-dialog__wrapper {
+    margin-top: -90px !important;
   }
   .el-form {
     width: 90%;

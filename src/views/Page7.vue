@@ -108,6 +108,7 @@
           :header-cell-style="{'border-right':'none',color:'#000','fontWeight':'800'}"
           :data="myList"
           style="width: 100%"
+          height="360"
         >
           <el-table-column prop="product_no" label="产品编号"></el-table-column>
           <el-table-column prop="name" label="产品全称"></el-table-column>
@@ -174,9 +175,9 @@ export default {
       name: "",
       categoryId: "",
       customerId: "",
-      productNo: "B",
+      productNo: "",
       pageNum: 1,
-      pageSize: 6,
+      pageSize: 5,
       totalPage: 0,
       listItem: null,
       locationList: []
@@ -596,9 +597,10 @@ export default {
       min-height: 420px;
     }
     .pagination {
-      position: absolute;
+      position: fixed;
       right: 100px;
       bottom: 14px;
+      z-index: 99;
       .el-pagination {
         text-align: right;
       }
