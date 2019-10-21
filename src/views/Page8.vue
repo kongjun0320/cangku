@@ -55,7 +55,7 @@
         <el-table
           v-loading="loading"
           border
-          height="500"
+          height="440"
           :cell-style="{'border-right':'none'}"
           :header-cell-style="{'border-right':'none',color:'#000','fontWeight':'800'}"
           :data="list"

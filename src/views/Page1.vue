@@ -53,7 +53,7 @@
             2019/09/09
           </p>
           <section class="echarts-box">
-            <div id="ec1" style="width: 400px;height:400px;"></div>
+            <div id="ec1" style="width: 400px;height:300px;"></div>
           </section>
         </section>
         <section class="inner-box">
@@ -72,20 +72,12 @@
             </section>
           </section>
           <section class="echarts-box">
-            <div id="ec2" style="width: 400px;height:400px;"></div>
+            <div id="ec2" style="width: 400px;height:300px;"></div>
           </section>
         </section>
         <section class="inner-box">
           <h1>消息通知</h1>
           <ul>
-            <li>
-              <span>消息发布</span>
-              <span>1</span>
-            </li>
-            <li>
-              <span>消息发布</span>
-              <span>111</span>
-            </li>
             <li>
               <span>消息发布</span>
               <span>227</span>
@@ -271,7 +263,7 @@ export default {
       .inner-box {
         padding: 20px;
         flex: 1;
-        height: 500px;
+        height: 400px;
         border: 1px solid #e5e5e5;
         &:nth-of-type(2) {
           margin: 0 10px;
@@ -281,7 +273,7 @@ export default {
             padding: 0;
             color: #707070;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 20px;
           }
           ul {
             margin-top: 20px;
@@ -290,7 +282,7 @@ export default {
               overflow: hidden;
               border-bottom: 1px solid #e5e5e5;
               span {
-                font-size: 10px;
+              font-size:14px;
                 &:nth-of-type(1) {
                   float: left;
                   color: #8d8d8d;

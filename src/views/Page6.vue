@@ -146,7 +146,7 @@ export default {
       customerId: "",
       productNo: "B",
       pageNum: 1,
-      pageSize: 7,
+      pageSize: 6,
       totalPage: 0,
       listItem: null,
       locationList: []

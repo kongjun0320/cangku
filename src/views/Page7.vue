@@ -530,6 +530,9 @@ export default {
 </script>
 <style lang="scss">
 .page7 {
+  .el-table__body-wrapper::-webkit-scrollbar {
+    display: none !important;
+  }
   .el-button {
     margin: 0 10px;
   }

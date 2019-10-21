@@ -51,7 +51,7 @@ export default {
       list: [],
       productNo: "",
       pageNum: 1,
-      pageSize: 7,
+      pageSize: 6,
       list: [],
       myList:[],
       totalPage: 0

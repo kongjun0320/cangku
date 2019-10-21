@@ -90,7 +90,7 @@
       <section class="table-con">
         <el-table
           v-loading="loading"
-          height="500"
+          height="440"
           border
           :cell-style="{'border-right':'none'}"
           :header-cell-style="{'border-right':'none',color:'#000','fontWeight':'800'}"
@@ -172,7 +172,7 @@ export default {
       customerId: "",
       productNo: "B",
       pageNum: 1,
-      pageSize: 10,
+      pageSize: 6,
       totalPage: 0,
       listItem: null,
       locationList: []

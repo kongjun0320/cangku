@@ -52,7 +52,7 @@ export default {
       myList: [],
       productNo: "",
       pageNum: 1,
-      pageSize: 7,
+      pageSize: 6,
       totalPage: 0
     };
   },
